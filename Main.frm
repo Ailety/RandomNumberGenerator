@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form Main 
    BackColor       =   &H8000000E&
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "随机数生成器 - RNG - SNAPSHOT 3.1.2"
+   Caption         =   "随机数生成器 - RNG - SNAPSHOT 3.2.3"
    ClientHeight    =   5055
    ClientLeft      =   9255
    ClientTop       =   5610
@@ -12,14 +12,24 @@ Begin VB.Form Main
    MinButton       =   0   'False
    ScaleHeight     =   5055
    ScaleWidth      =   10215
-   Begin VB.Timer SelectClassHide 
-      Interval        =   5
-      Left            =   9720
-      Top             =   1080
-   End
-   Begin VB.Timer Timer1 
-      Left            =   4560
-      Top             =   2280
+   StartUpPosition =   2  '屏幕中心
+   Begin VB.CheckBox MinimumProtectSwitch 
+      BackColor       =   &H8000000E&
+      Caption         =   "启用保护机制"
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   9
+         Charset         =   134
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   735
+      Left            =   3960
+      TabIndex        =   31
+      Top             =   3000
+      Width           =   855
    End
    Begin VB.CommandButton DataStatisticsButton 
       Caption         =   " 数据统计 "
@@ -164,9 +174,9 @@ Begin VB.Form Main
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   600
+      Left            =   2400
       TabIndex        =   15
-      Top             =   3360
+      Top             =   3000
       Width           =   1605
    End
    Begin VB.CheckBox AllowDuplicateData 
@@ -183,7 +193,7 @@ Begin VB.Form Main
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   2880
+      Left            =   2040
       TabIndex        =   10
       Top             =   3360
       Width           =   1845
@@ -235,9 +245,9 @@ Begin VB.Form Main
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   2880
+      Left            =   600
       TabIndex        =   7
-      Top             =   3000
+      Top             =   3360
       Width           =   1455
    End
    Begin VB.CheckBox NameHook 
@@ -498,7 +508,7 @@ Begin VB.Form Main
    End
    Begin VB.Label Subtitle 
       BackStyle       =   0  'Transparent
-      Caption         =   "SNAPSHOT 3.1.2"
+      Caption         =   "SNAPSHOT Ver."
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   18
@@ -604,7 +614,7 @@ Dim Min As Single
 Dim Max As Single
 Dim lngAns As Long
 Dim RNMax As Single
-Dim RNCache(1 To 50000) As Single
+Dim RNCache(1 To 25000) As Single
 Dim RNCacheCount(1 To 1000000) As Single
 Dim MateAmount As Integer
 Dim OnlyGirlValue As Boolean
@@ -675,6 +685,7 @@ Sub ShowControl()
   AllowMultiple.Visible = True
   FormattingData.Visible = True
   AllowDuplicateData.Visible = True
+  MinimumProtectSwitch.Visible = True
   OverwriteData.Visible = True
   WindowWeight.Visible = True
   
@@ -690,7 +701,7 @@ Sub ShowControl()
   Max_Button.Visible = False
   Min_Button.Visible = False
 
-  Main.Caption = "随机数生成器 - RNG - SNAPSHOT 3.1.2"
+  Main.Caption = "随机数生成器 - RNG - SNAPSHOT " + Meta.Version
   Main.Width = 10305
   Main.Height = 5490
   
@@ -725,6 +736,7 @@ Sub HideControl()
   AllowMultiple.Visible = False
   FormattingData.Visible = False
   AllowDuplicateData.Visible = False
+  MinimumProtectSwitch.Visible = False
   OverwriteData.Visible = False
   WindowWeight.Visible = False
   
@@ -760,13 +772,9 @@ End Sub
 Sub RandomEvent()
   Call RealRandom
   If NameHookValue Then
-    If MinimumProtectCount < 10 Then
-      MinimumProtectCount = MinimumProtectCount + 1
-      MinimumProtect(MinimumProtectCount) = RNMax
-    ElseIf MinimumProtectCount = 10 Then
+    If MinimumProtectSwitch.Value Then
       For i = 1 To 10 Step 1
         If RNMax = MinimumProtect(i) Then
-          MsgBox CStr(Meta.Name(RNMax)) + "已被保底拯救"
           Meta.Protect = True
           Call RandomEvent
           Exit Sub
@@ -789,7 +797,7 @@ Sub RealRandom()
     RNMax = Int(Rnd() * (Max - Min + 1)) + Min
     Exit Sub
   End If
-  For a = 1 To 50000 Step 1
+  For a = 1 To 25000 Step 1
     RNCache(a) = Int(Rnd() * (Max - Min + 1)) + Min
     RNCacheCount(RNCache(a)) = RNCacheCount(RNCache(a)) + 1
   Next a
@@ -936,14 +944,6 @@ Private Sub AnnouncementLoad_Timer()
 End Sub
 
 Private Sub ClassDisplay_DblClick()
-  Select Case Meta.Class
-  Case "2008"
-    SelectClass.SelectClassCombo.ListIndex = 0
-  Case "2009"
-    SelectClass.SelectClassCombo.ListIndex = 1
-  Case "2024"
-    SelectClass.SelectClassCombo.ListIndex = 2
-  End Select
   If Dir(App.Path & "\config.ini") = "" And Dir(App.Path & "\Meta.vbd") <> "" Then
     Name App.Path & "\Meta.vbd" As App.Path & "\config.ini"
   ElseIf Dir(App.Path & "\config.ini") = "" And Dir(App.Path & "\Meta.vbd") = "" Then
@@ -962,11 +962,17 @@ End Sub
 
 Private Sub Form_Load()
   Randomize
-  Main.Icon = SelectClass.Icon
+  Main.Icon = Welcome.Icon
+  Meta.Version = "3.2.4"
+  Unload Welcome
   Meta.WindowState = "Max"
   MinimumProtectCount = 0
   MaxBox.Text = CStr(Meta.MateAmount)
+  Subtitle.Caption = "SNAPSHOT " + Meta.Version
   ClassDisplay.Caption = "当前已载入 " + Meta.Class + "班 学生数据"
+  For i = 1 To 10 Step 1
+    MinimumProtect(i) = Int(Rnd() * (Max - Min + 1)) + Min
+  Next i
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1143,6 +1149,7 @@ Private Sub NameHook_Click()
     AllGender.Enabled = True
     AllGender.Value = True
     FormattingData.Enabled = True
+    MinimumProtectSwitch.Enabled = True
     If Val(MinBox.Text) <= 0 Or Val(MinBox.Text) > Meta.MateAmount Then
       MinBox.Text = "1"
     End If
@@ -1158,6 +1165,8 @@ Private Sub NameHook_Click()
     AllGender.Value = False
     FormattingData.Enabled = False
     FormattingData.Value = False
+    MinimumProtectSwitch.Value = False
+    MinimumProtectSwitch.Enabled = False
   End If
 End Sub
 
@@ -1185,11 +1194,6 @@ Private Sub OnlyGirl_Click()
       End If
     End If
   End If
-End Sub
-
-Private Sub SelectClassHide_Timer()
-  SelectClass.Hide
-  SelectClassHide.Enabled = False
 End Sub
 
 Private Sub ViewLastData_Click()

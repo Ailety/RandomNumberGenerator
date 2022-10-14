@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form Announcement 
    BackColor       =   &H8000000E&
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "更新公告: 3.1.2 版本 20221005"
+   Caption         =   "更新公告: Ver. 版本 20221014"
    ClientHeight    =   8550
    ClientLeft      =   45
    ClientTop       =   390
@@ -104,9 +104,10 @@ End Sub
 
 Private Sub Form_Load()
   Announcement.Icon = Main.Icon
+  Announcement.Caption = "更新公告: " + Meta.Version + " 20221014"
   SetWindowPos Me.hwnd, -1, 0, 0, 0, 0, 3
   AnnouncementMessageLoadAmount = 1
-  AnnouncementMessageAmount = 24
+  AnnouncementMessageAmount = 33
   AnnouncementMessage(1) = "1.1.2 - 2.7.2 更新内容"
   AnnouncementMessage(2) = ""
   AnnouncementMessage(3) = "1.重写随机数生成逻辑"
@@ -131,6 +132,15 @@ Private Sub Form_Load()
   AnnouncementMessage(22) = "7.加入了重复程序进程判断，现在只允许启动一个进程以保护数据安全"
   AnnouncementMessage(23) = "8.针对单次随机数生成进行了逻辑性优化，现在生成10次后，每一次都将不会抽中前10次被抽中的人。"
   AnnouncementMessage(24) = "9.更新了数据统计功能"
+  AnnouncementMessage(25) = ""
+  AnnouncementMessage(26) = "3.1.2 - 3.2.3 更新内容"
+  AnnouncementMessage(27) = ""
+  AnnouncementMessage(28) = "1.修复了班级选择窗口偶现加载异常及程序主窗体错位的问题"
+  AnnouncementMessage(29) = "2.优化了保底机制的启用机制，并增加了启用开关"
+  AnnouncementMessage(30) = ""
+  AnnouncementMessage(31) = "3.2.3 - 3.2.4 更新内容 20221014"
+  AnnouncementMessage(32) = ""
+  AnnouncementMessage(33) = "1.修复了窗体缩放功能因部分代码逻辑异常导致切换窗体时显示位置错位的问题"
 End Sub
 
 Private Sub NoLongerRemind_Click()

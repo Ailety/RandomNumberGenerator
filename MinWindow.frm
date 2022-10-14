@@ -4,8 +4,8 @@ Begin VB.Form MinWindow
    BorderStyle     =   0  'None
    Caption         =   "Form1"
    ClientHeight    =   765
-   ClientLeft      =   0
-   ClientTop       =   0
+   ClientLeft      =   4335
+   ClientTop       =   3915
    ClientWidth     =   765
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
@@ -45,22 +45,21 @@ Private Const SWP_NOMOVE& = &H2
 ' 保持窗口位置
 
 Private Sub BackGround_DblClick()
+  Main.Show
   Select Case Meta.WindowLastState
     Case "Max"
-      Main.Window_Display_Max.Value = True
       Meta.WindowState = "Max"
-      MinWindow.Top = Main.Top - 2300
-      MinWindow.Left = Main.Left - 4600
+      Main.Top = MinWindow.Top - 2300
+      Main.Left = MinWindow.Left - 4600
       Meta.WindowLastState = Meta.WindowState
       Meta.WindowState = "Max"
     Case "Normal"
       Main.Top = MinWindow.Top - 400
       Main.Left = MinWindow.Left - 1000
-      Main.Window_Display_Max.Value = True
       Meta.WindowLastState = Meta.WindowState
       Meta.WindowState = "Normal"
   End Select
-  Main.Show
+  Main.Window_Display_Max.Value = True
   Unload MinWindow
 End Sub
 

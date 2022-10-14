@@ -14,12 +14,12 @@ Begin VB.Form DataStatistics
    StartUpPosition =   2  '屏幕中心
    Begin VB.Timer DataDisplay 
       Enabled         =   0   'False
-      Interval        =   20
+      Interval        =   10
       Left            =   5520
       Top             =   7320
    End
    Begin VB.Timer DataLoad 
-      Interval        =   500
+      Interval        =   25
       Left            =   5520
       Top             =   7800
    End
@@ -122,9 +122,13 @@ Private Sub DataLoad_Timer()
         MaxIndex = i
       End If
     Next i
+    DataList.AddItem ""
     DataList.AddItem Meta.Name(MaxIndex) + "被抽中的次数最多，为 " + CStr(Max) + " 次"
+    DataList.AddItem ""
   Else
+    DataList.AddItem ""
     DataList.AddItem "尚未抽取过一次，无法显示相关数据"
+    DataList.AddItem ""
   End If
   DataDisplay.Enabled = True
   DataLoad.Enabled = False

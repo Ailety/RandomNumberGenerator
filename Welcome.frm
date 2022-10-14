@@ -14,6 +14,14 @@ Begin VB.Form Welcome
    ScaleHeight     =   5310
    ScaleWidth      =   10575
    StartUpPosition =   2  '屏幕中心
+   Begin VB.TextBox PTS 
+      Height          =   270
+      Left            =   4080
+      TabIndex        =   17
+      Top             =   4680
+      Visible         =   0   'False
+      Width           =   2295
+   End
    Begin VB.CommandButton Confirm 
       Caption         =   "确认"
       BeginProperty Font 
@@ -324,23 +332,114 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim varPass As String
+Dim DefaultClass As String
+Private Declare Function timeGetTime Lib "winmm.dll" () As Long
+Private Declare Function WritePrivateProfileString Lib "kernel32" Alias "WritePrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpString As Any, ByVal lpFileName As String) As Long
+Private Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 Sub OpenWebPage1()
   ShellExecute 0&, vbNullString, "https://github.com/Ailety/RandomNumberGenerator", vbNullString, vbNullString, vbNormalFocus
 End Sub
 
+Private Function JiaMi(ByVal varPass As String) As String
+  Dim varJiaMi As String * 20
+  Dim varTmp As Double
+  Dim strJiaMi As String
+  Dim i
+  For i = 1 To Len(varPass)
+    varTmp = AscW(Mid$(varPass, i, 1))
+    varJiaMi = Str$(((((varTmp * 1.5) / 5.6) * 2.7) * i))
+    strJiaMi = strJiaMi & varJiaMi
+  Next i
+  JiaMi = strJiaMi
+End Function
+
+Private Function JieMi(ByVal varPass As String) As String
+  Dim varReturn As String * 20
+  Dim varConvert As Double
+  Dim varFinalPass As String
+  Dim varKey As Integer
+  Dim varPasslenth As Long
+  varPasslenth = Len(varPass)
+  For i = 1 To varPasslenth / 20
+    varReturn = Mid(varPass, (i - 1) * 20 + 1, 20)
+    varConvert = Val(Trim(varReturn))
+    varConvert = ((((varConvert / 1.5) * 5.6) / 2.7) / i)
+    varFinalPass = varFinalPass & ChrW(Val(varConvert))
+  Next i
+  JieMi = varFinalPass
+End Function
+
 Private Sub Confirm_Click()
-  Me.Hide
-  SelectClass.Show
+  Dim WriteString As Long
+  Dim ReadString As Long
+  Dim ReadValue As String
+  If Dir(App.Path & "\config.ini") = "" And Dir(App.Path & "\Meta.vbd") <> "" Then
+    Name App.Path & "\Meta.vbd" As App.Path & "\config.ini"
+  End If
+  If Dir(App.Path & "\config.ini") = "" And Dir(App.Path & "\Meta.vbd") = "" Then
+    Welcome.Hide
+    MsgBox "加载配置文件时出现错误，" + vbCrLf + "如持续出现该错误，请报告给开发者。", vbOKOnly + vbCritical, "配置文件错误"
+    End
+  End If
+  If Dir(App.Path & "\config.ini") <> "" Then
+    ReadValue = String(255, 0)
+    ReadString = GetPrivateProfileString("Application_Data", "DefaultClass", "NULL", ReadValue, 256, App.Path & "\config.ini")
+    PTS.Text = ReadValue
+    If PTS.Text = "" Then
+      Welcome.Hide
+      SelectClass.Show
+      Exit Sub
+    End If
+    DefaultClass = JieMi(ReadValue)
+    If Mid(DefaultClass, 1, 4) = "2008" Or Mid(DefaultClass, 1, 4) = "2009" Or Mid(DefaultClass, 1, 4) = "2024" Then
+      Meta.Class = CStr(Val(DefaultClass))
+      ReadString = GetPrivateProfileString(DefaultClass, "MateAmount", "NULL", ReadValue, 256, App.Path & "\config.ini")
+      Meta.MateAmount = Val(ReadValue)
+      ReadString = GetPrivateProfileString(DefaultClass, "MateMale", "NULL", ReadValue, 256, App.Path & "\config.ini")
+      Meta.MaleAmount = Val(ReadValue)
+      ReadString = GetPrivateProfileString(DefaultClass, "MateFemale", "NULL", ReadValue, 256, App.Path & "\config.ini")
+      Meta.FemaleAmount = Val(ReadValue)
+      For i = 1 To Meta.MateAmount Step 1
+        ReadString = GetPrivateProfileString(DefaultClass, "MateName(" + CStr(i) + ")", "NULL", ReadValue, 256, App.Path & "\config.ini")
+        PTS.Text = ReadValue
+        Meta.Name(i) = PTS.Text
+        ReadString = GetPrivateProfileString(DefaultClass, "MateGender(" + CStr(i) + ")", "NULL", ReadValue, 256, App.Path & "\config.ini")
+        PTS.Text = ReadValue
+        Meta.Gender(i) = PTS.Text
+      Next i
+      Name App.Path & "\config.ini" As App.Path & "\Meta.vbd"
+      Savetime = timeGetTime
+      While timeGetTime < Savetime + 50
+      DoEvents
+      Wend
+      Main.Show
+      Main.SetFocus
+      Welcome.Hide
+      Exit Sub
+    Else
+      WriteString = WritePrivateProfileString("Application_Data", "DefaultClass", "", App.Path & "\config.ini")
+      MsgBox "班级参数错误！" + vbCrLf + "数据载入失败，已清除配置文件中错误的班级数据。", vbOKOnly + vbCritical, "参数错误"
+      SelectClass.Show
+      Exit Sub
+    End If
+  End If
 End Sub
 
 Private Sub Form_Load()
   If App.PrevInstance Then
-    Unload Me
+    End
     Exit Sub
   End If
-  WelcomeText.Text = "" + vbCrLf + "                                                             欢迎使用随机数生成器(RNG)" + vbCrLf + " " + vbCrLf + "　 这个软件因老师上课的需求而诞生，如今已迭代至 SNAPSHOT 3.1.2 (第三快照版本第一次更新+二次修订)，功能也相对趋于完善。初次开发花费1节课，后续的更新和维护共计35.7小时(实际开发时长)。" + vbCrLf + "　 当前版本解决了很多初代版本所存在的痛点，同时也修复了99%的BUG。但是受限于精力和技术，可能存在着极为隐性的漏洞，欢迎反馈。当然，如果你有好的建议，也可以与我联系，让软件更加完善。"
+  WelcomeText.Text = "" + vbCrLf + "                                                             欢迎使用随机数生成器(RNG)" + vbCrLf + " " + vbCrLf + "　 这个软件因老师上课的需求而诞生，如今已迭代至 SNAPSHOT 3.2.4 (第三快照版本第二次更新+四次修订)，功能也相对趋于完善。初次开发花费1节课，后续的更新和维护共计36.9小时(实际开发时长)。" + vbCrLf + "　 当前版本解决了很多初代版本所存在的痛点，同时也修复了99%的BUG。但是受限于精力和技术，可能存在着极为隐性的漏洞，欢迎反馈。当然，如果你有好的建议，也可以与我联系，让软件更加完善。"
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+  Me.Hide
+  Call Confirm_Click
+  Cancel = -1
 End Sub
 
 Private Sub OpenBrowser_Click()
