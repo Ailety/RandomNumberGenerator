@@ -123,7 +123,7 @@ Private Sub Form_Load()
   AnnouncementMessage(13) = ""
   AnnouncementMessage(14) = "2.7.2 - 3.1.2 更新内容"
   AnnouncementMessage(15) = ""
-  AnnouncementMessage(16) = "1.重写窗口缩放功能，现支持三种模式: 窗口最大火(默认)、窗口缩放化及窗口最小化"
+  AnnouncementMessage(16) = "1.重写窗口缩放功能，现支持三种模式: 窗口最大化(默认)、窗口缩放化及窗口最小化"
   AnnouncementMessage(17) = "2.改进部分文本"
   AnnouncementMessage(18) = "3.新增欢迎界面"
   AnnouncementMessage(19) = "4.程序本体UI迭代优化"
