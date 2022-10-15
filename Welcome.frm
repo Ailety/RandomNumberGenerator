@@ -40,7 +40,7 @@ Begin VB.Form Welcome
       Width           =   2175
    End
    Begin VB.CommandButton OpenBrowser 
-      Caption         =   "点击打开浏览器"
+      Caption         =   "点击转至浏览器"
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   10.5
