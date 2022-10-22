@@ -91,7 +91,7 @@ Private Sub Form_Load()
     End If
   Else
     If Main.NameHook.Value Then
-      For i = 1 To Meta.Amount Step 1
+      For i = 1 To Meta.LastAmount Step 1
         If Main.FormattingData.Value Then
           If Len(Meta.Name(Meta.Result(i))) = 2 Then
             ResultData = Mid(Meta.Name(Meta.Result(i)), 1, 1) + "¡¡" + Mid(Meta.Name(Meta.Result(i)), 2, 1)

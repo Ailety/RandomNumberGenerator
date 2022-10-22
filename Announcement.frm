@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form Announcement 
    BackColor       =   &H8000000E&
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "更新公告: Ver. 版本 20221014"
+   Caption         =   "更新公告: Ver. 版本 20221022"
    ClientHeight    =   8550
    ClientLeft      =   45
    ClientTop       =   390
@@ -104,10 +104,10 @@ End Sub
 
 Private Sub Form_Load()
   Announcement.Icon = Main.Icon
-  Announcement.Caption = "更新公告: " + Meta.Version + " 20221014"
+  Announcement.Caption = "更新公告: " + Meta.Version + " 20221022"
   SetWindowPos Me.hwnd, -1, 0, 0, 0, 0, 3
   AnnouncementMessageLoadAmount = 1
-  AnnouncementMessageAmount = 33
+  AnnouncementMessageAmount = 37
   AnnouncementMessage(1) = "1.1.2 - 2.7.2 更新内容"
   AnnouncementMessage(2) = ""
   AnnouncementMessage(3) = "1.重写随机数生成逻辑"
@@ -141,6 +141,10 @@ Private Sub Form_Load()
   AnnouncementMessage(31) = "3.2.3 - 3.2.4 更新内容 20221014"
   AnnouncementMessage(32) = ""
   AnnouncementMessage(33) = "1.修复了窗体缩放功能因部分代码逻辑异常导致切换窗体时显示位置错位的问题"
+  AnnouncementMessage(34) = ""
+  AnnouncementMessage(35) = "3.2.4 - 3.2.5 更新内容 20221022"
+  AnnouncementMessage(36) = ""
+  AnnouncementMessage(37) = "1.修复了查看上次数据功能因为更改生成次数导致的下标越界错误"
 End Sub
 
 Private Sub NoLongerRemind_Click()

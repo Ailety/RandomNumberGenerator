@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form Main 
    BackColor       =   &H8000000E&
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "随机数生成器 - RNG - SNAPSHOT 3.2.3"
+   Caption         =   "随机数生成器 - RNG - SNAPSHOT Ver."
    ClientHeight    =   5055
    ClientLeft      =   9255
    ClientTop       =   5610
@@ -623,7 +623,7 @@ Dim AllGenderValue As Boolean
 Dim NameHookValue As Boolean
 Dim OverwriteDataValue As Boolean
 Dim AllowDuplicateDataValue As Boolean
-Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal X As Long, ByVal Y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Private Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
 Dim MinimumProtect(1 To 10) As Integer
 Dim MinimumProtectCount As Integer
@@ -963,11 +963,12 @@ End Sub
 Private Sub Form_Load()
   Randomize
   Main.Icon = Welcome.Icon
-  Meta.Version = "3.2.4"
+  Meta.Version = "3.2.5"
   Unload Welcome
   Meta.WindowState = "Max"
   MinimumProtectCount = 0
   MaxBox.Text = CStr(Meta.MateAmount)
+  Main.Caption = "随机数生成器 - RNG - SNAPSHOT " + Meta.Version
   Subtitle.Caption = "SNAPSHOT " + Meta.Version
   ClassDisplay.Caption = "当前已载入 " + Meta.Class + "班 学生数据"
   For i = 1 To 10 Step 1
@@ -985,6 +986,7 @@ End Sub
 Private Sub Generate_Click()
   Dim Savetime As Double
   Call ValueGet
+  Meta.LastAmount = Val(AmountBox.Text)
   If MinBox.Text = "" Or MaxBox.Text = "" Or AmountBox.Text = "" Then
     If MinBox.Text = "" Then
       MsgBox "尚未填写最小值", vbOKOnly + vbCritical, "参数缺失"
