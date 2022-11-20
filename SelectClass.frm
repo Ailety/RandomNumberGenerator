@@ -166,6 +166,7 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub Form_Load()
+  SelectClass.Icon = Main.Icon
   Select Case Meta.Class
   Case "2008"
     SelectClass.SelectClassCombo.ListIndex = 0

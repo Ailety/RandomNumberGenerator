@@ -405,10 +405,18 @@ Private Sub Confirm_Click()
       For i = 1 To Meta.MateAmount Step 1
         ReadString = GetPrivateProfileString(DefaultClass, "MateName(" + CStr(i) + ")", "NULL", ReadValue, 256, App.Path & "\config.ini")
         PTS.Text = ReadValue
-        Meta.Name(i) = PTS.Text
+        If PTS.Text = "NULL" Or PTS.Text = "" Then
+          Meta.Name(i) = "姓名异常"
+        Else
+          Meta.Name(i) = PTS.Text
+        End If
         ReadString = GetPrivateProfileString(DefaultClass, "MateGender(" + CStr(i) + ")", "NULL", ReadValue, 256, App.Path & "\config.ini")
         PTS.Text = ReadValue
-        Meta.Gender(i) = PTS.Text
+        If PTS.Text = "NULL" Or PTS.Text = "" Then
+          Meta.Gender(i) = "性别异常"
+        Else
+          Meta.Gender(i) = PTS.Text
+        End If
       Next i
       Name App.Path & "\config.ini" As App.Path & "\Meta.vbd"
       Savetime = timeGetTime
@@ -433,7 +441,7 @@ Private Sub Form_Load()
     End
     Exit Sub
   End If
-  WelcomeText.Text = "" + vbCrLf + "                                                             欢迎使用随机数生成器(RNG)" + vbCrLf + " " + vbCrLf + "　 这个软件因老师上课的需求而诞生，如今已迭代至 SNAPSHOT 3.2.5 (第三快照版本第二次更新+五次修订)，功能也相对趋于完善。初次开发花费1节课，后续的更新和维护共计37.1小时(实际开发时长)。" + vbCrLf + "　 当前版本解决了很多初代版本所存在的痛点，同时也修复了99%的BUG。但是受限于精力和技术，可能存在着极为隐性的漏洞，欢迎反馈。当然，如果你有好的建议，也可以与我联系，让软件更加完善。"
+  WelcomeText.Text = "" + vbCrLf + "                                                             欢迎使用随机数生成器(RNG)" + vbCrLf + " " + vbCrLf + "　 这个软件因老师上课的需求而诞生，如今已迭代至 SNAPSHOT 3.2.9 (第三快照版本第二次更新+九次修订)，功能也相对趋于完善。初次开发花费1节课，后续的更新和维护共计38.9小时(实际开发时长)。" + vbCrLf + "　 当前版本解决了很多初代版本所存在的痛点，同时也修复了99%的BUG。但是受限于精力和技术，可能存在着极为隐性的漏洞，欢迎反馈。当然，如果你有好的建议，也可以与我联系，让软件更加完善。"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

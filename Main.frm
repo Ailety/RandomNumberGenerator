@@ -813,7 +813,7 @@ Sub RealRandom()
       RNMin = c
     End If
   Next c
-  If Amount <> Max - Min + 1 Then
+  If Amount <> Max - Min + 1 And Max - Min <> 0 Then
     If Rnd() * 100 + 1 <= 50 Then
       RNMax = RNMin
     End If
@@ -834,6 +834,10 @@ End Sub
 
 Private Sub AllowDuplicateData_Click()
   Call ValueGet
+  If AllGenderValue Then
+    OnlyBoy.Enabled = True
+    OnlyGirl.Enabled = True
+  End If
   If Not (AllowDuplicateDataValue) Then
     If Amount > Max - Min + 1 And AmountBox.Text <> "" Then
       AmountBox.Text = Max - Min + 1
@@ -868,6 +872,10 @@ Private Sub AllowMultiple_Click()
 End Sub
 
 Private Sub AmountBox_Change()
+  If Len(AmountBox.Text) > 5 Then
+    MsgBox "生成次数不应该使用过于庞大的数值！", vbOKOnly + vbCritical, "参数错误"
+    AmountBox.Text = Left(AmountBox.Text, Len(AmountBox.Text) - 1)
+  End If
   Min = Val(MinBox.Text)
   Max = Val(MaxBox.Text)
   Amount = Val(AmountBox.Text)
@@ -963,7 +971,7 @@ End Sub
 Private Sub Form_Load()
   Randomize
   Main.Icon = Welcome.Icon
-  Meta.Version = "3.2.5"
+  Meta.Version = "3.2.9"
   Unload Welcome
   Meta.WindowState = "Max"
   MinimumProtectCount = 0
@@ -1177,7 +1185,7 @@ Private Sub OnlyBoy_Click()
   Amount = Val(AmountBox.Text)
   If NameHook Then
     If OnlyBoyValue Then
-      If Amount > Meta.MaleAmount Then
+      If Amount > Meta.MaleAmount And Not AllowDuplicateDataValue Then
         AmountBox.Text = CStr(Meta.MaleAmount)
         Exit Sub
       End If
@@ -1190,7 +1198,7 @@ Private Sub OnlyGirl_Click()
   Amount = Val(AmountBox.Text)
   If NameHook Then
     If OnlyGirlValue Then
-      If Amount > Meta.FemaleAmount Then
+      If Amount > Meta.FemaleAmount And Not AllowDuplicateDataValue Then
         AmountBox.Text = CStr(Meta.FemaleAmount)
         Exit Sub
       End If

@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form Announcement 
    BackColor       =   &H8000000E&
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "更新公告: Ver. 版本 20221022"
+   Caption         =   "更新公告: Ver. 版本 NULLNULL"
    ClientHeight    =   8550
    ClientLeft      =   45
    ClientTop       =   390
@@ -80,7 +80,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim AnnouncementMessage(1 To 40) As String
+Dim AnnouncementMessage(1 To 100) As String
 Dim AnnouncementMessageAmount As Integer
 Dim AnnouncementMessageLoadAmount As Integer
 Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
@@ -104,10 +104,10 @@ End Sub
 
 Private Sub Form_Load()
   Announcement.Icon = Main.Icon
-  Announcement.Caption = "更新公告: " + Meta.Version + " 20221022"
+  Announcement.Caption = "更新公告: " + Meta.Version + " 20221119"
   SetWindowPos Me.hwnd, -1, 0, 0, 0, 0, 3
   AnnouncementMessageLoadAmount = 1
-  AnnouncementMessageAmount = 37
+  AnnouncementMessageAmount = 38
   AnnouncementMessage(1) = "1.1.2 - 2.7.2 更新内容"
   AnnouncementMessage(2) = ""
   AnnouncementMessage(3) = "1.重写随机数生成逻辑"
@@ -138,13 +138,14 @@ Private Sub Form_Load()
   AnnouncementMessage(28) = "1.修复了班级选择窗口偶现加载异常及程序主窗体错位的问题"
   AnnouncementMessage(29) = "2.优化了保底机制的启用机制，并增加了启用开关"
   AnnouncementMessage(30) = ""
-  AnnouncementMessage(31) = "3.2.3 - 3.2.4 更新内容 20221014"
+  AnnouncementMessage(31) = "3.2.3 - 3.2.9 更新内容 "
   AnnouncementMessage(32) = ""
-  AnnouncementMessage(33) = "1.修复了窗体缩放功能因部分代码逻辑异常导致切换窗体时显示位置错位的问题"
-  AnnouncementMessage(34) = ""
-  AnnouncementMessage(35) = "3.2.4 - 3.2.5 更新内容 20221022"
-  AnnouncementMessage(36) = ""
-  AnnouncementMessage(37) = "1.修复了查看上次数据功能因为更改生成次数导致的下标越界错误"
+  AnnouncementMessage(33) = "1.修复了窗体缩放功能因部分代码逻辑异常导致切换窗体时显示位置错位的问题 - 20221014"
+  AnnouncementMessage(34) = "2.修复了查看上次数据功能因为更改生成次数导致的下标越界错误 - 20221022"
+  AnnouncementMessage(35) = "3.修复了因最小值和最大值相同导致的抽取不符逻辑（如抽到不应该抽到的同学）- 20221108"
+  AnnouncementMessage(36) = "4.修复了性别筛选部分代码逻辑错误导致的部分功能异常的问题 - 20221119"
+  AnnouncementMessage(37) = "5.对导入班级数据的部分代码进行了调优 - 20221119"
+  AnnouncementMessage(38) = "6.修改了更新公告的文本显示方式，整合了最近几次的更新 - 20221119"
 End Sub
 
 Private Sub NoLongerRemind_Click()

@@ -99,9 +99,9 @@ Private Sub DataDisplay_Timer()
       DataName = Meta.Name(LoadCount)
     End If
     If LoadCount < 10 Then
-      DataList.AddItem "0" + CStr(LoadCount) + "号 " + DataName + " 共计被抽中: " + CStr(Meta.Data_MateCount(LoadCount)) + "次"
+      DataList.AddItem "0" + CStr(LoadCount) + "号 " + DataName + " " + Meta.Gender(LoadCount) + " 共计被抽中: " + CStr(Meta.Data_MateCount(LoadCount)) + "次"
     Else
-      DataList.AddItem CStr(LoadCount) + "号 " + DataName + " 共计被抽中: " + CStr(Meta.Data_MateCount(LoadCount)) + "次"
+      DataList.AddItem CStr(LoadCount) + "号 " + DataName + " " + Meta.Gender(LoadCount) + " 共计被抽中: " + CStr(Meta.Data_MateCount(LoadCount)) + "次"
     End If
     LoadCount = LoadCount + 1
   Else
