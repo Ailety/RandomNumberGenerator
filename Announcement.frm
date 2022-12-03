@@ -104,10 +104,10 @@ End Sub
 
 Private Sub Form_Load()
   Announcement.Icon = Main.Icon
-  Announcement.Caption = "更新公告: " + Meta.Version + " 20221119"
+  Announcement.Caption = "更新公告: " + Meta.Version + " 20221203"
   SetWindowPos Me.hwnd, -1, 0, 0, 0, 0, 3
   AnnouncementMessageLoadAmount = 1
-  AnnouncementMessageAmount = 38
+  AnnouncementMessageAmount = 46
   AnnouncementMessage(1) = "1.1.2 - 2.7.2 更新内容"
   AnnouncementMessage(2) = ""
   AnnouncementMessage(3) = "1.重写随机数生成逻辑"
@@ -138,7 +138,7 @@ Private Sub Form_Load()
   AnnouncementMessage(28) = "1.修复了班级选择窗口偶现加载异常及程序主窗体错位的问题"
   AnnouncementMessage(29) = "2.优化了保底机制的启用机制，并增加了启用开关"
   AnnouncementMessage(30) = ""
-  AnnouncementMessage(31) = "3.2.3 - 3.2.9 更新内容 "
+  AnnouncementMessage(31) = "3.2.3 - 3.2.9 更新内容"
   AnnouncementMessage(32) = ""
   AnnouncementMessage(33) = "1.修复了窗体缩放功能因部分代码逻辑异常导致切换窗体时显示位置错位的问题 - 20221014"
   AnnouncementMessage(34) = "2.修复了查看上次数据功能因为更改生成次数导致的下标越界错误 - 20221022"
@@ -146,6 +146,14 @@ Private Sub Form_Load()
   AnnouncementMessage(36) = "4.修复了性别筛选部分代码逻辑错误导致的部分功能异常的问题 - 20221119"
   AnnouncementMessage(37) = "5.对导入班级数据的部分代码进行了调优 - 20221119"
   AnnouncementMessage(38) = "6.修改了更新公告的文本显示方式，整合了最近几次的更新 - 20221119"
+  AnnouncementMessage(39) = ""
+  AnnouncementMessage(40) = "3.2.9 - 3.3.0 更新内容 20221203"
+  AnnouncementMessage(41) = ""
+  AnnouncementMessage(42) = "1.对导入班级数据的部分代码和配置文件进行了调整，以免出现因性别参数错误导致的性别筛选功能异常的问题"
+  AnnouncementMessage(43) = "2.在数据统计界面增加了部分功能"
+  AnnouncementMessage(44) = "3.修复了因部分随机结算代码逻辑导致的最大值被抽取概率偏高的问题"
+  AnnouncementMessage(45) = "4.优化了生成次数、最大值、最小值文本框的参数判断，现在直接禁用了除数字以外的文本输入"
+  AnnouncementMessage(46) = "5.修复了因先前版本改动初始化界面导致的无班级数据或切换班级时出现的异常错误（例如主界面载入失败、切换班级后同学数据异常等）"
 End Sub
 
 Private Sub NoLongerRemind_Click()

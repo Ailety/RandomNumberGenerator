@@ -5,23 +5,42 @@ Begin VB.Form DataStatistics
    ClientHeight    =   8400
    ClientLeft      =   120
    ClientTop       =   465
-   ClientWidth     =   6165
+   ClientWidth     =   12810
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   8400
-   ScaleWidth      =   6165
+   ScaleWidth      =   12810
    StartUpPosition =   2  '屏幕中心
+   Begin VB.ListBox DataList_Part 
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   10.5
+         Charset         =   134
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   6045
+      ItemData        =   "DataStatistics.frx":0000
+      Left            =   7080
+      List            =   "DataStatistics.frx":0002
+      TabIndex        =   3
+      Top             =   480
+      Visible         =   0   'False
+      Width           =   5175
+   End
    Begin VB.Timer DataDisplay 
       Enabled         =   0   'False
       Interval        =   10
-      Left            =   5520
-      Top             =   7320
+      Left            =   120
+      Top             =   7440
    End
    Begin VB.Timer DataLoad 
       Interval        =   25
-      Left            =   5520
-      Top             =   7800
+      Left            =   120
+      Top             =   7920
    End
    Begin VB.CommandButton Back 
       Caption         =   "返回"
@@ -35,9 +54,9 @@ Begin VB.Form DataStatistics
          Strikethrough   =   0   'False
       EndProperty
       Height          =   615
-      Left            =   2160
+      Left            =   5400
       TabIndex        =   1
-      Top             =   7320
+      Top             =   7200
       Width           =   1935
    End
    Begin VB.ListBox DataList 
@@ -51,9 +70,9 @@ Begin VB.Form DataStatistics
          Strikethrough   =   0   'False
       EndProperty
       Height          =   6045
-      ItemData        =   "DataStatistics.frx":0000
+      ItemData        =   "DataStatistics.frx":0004
       Left            =   480
-      List            =   "DataStatistics.frx":0002
+      List            =   "DataStatistics.frx":0006
       TabIndex        =   0
       Top             =   480
       Visible         =   0   'False
@@ -112,6 +131,7 @@ End Sub
 Private Sub DataLoad_Timer()
   DataLoadLabel.Visible = False
   DataList.Visible = True
+  DataList_Part.Visible = True
   DataList.AddItem "本程序在本次运行期间共生成了 " + CStr(Meta.Data_GenerateCount) + " 次"
   DataList.AddItem "以下是生成数据的情况:"
   Max = 0
@@ -130,6 +150,12 @@ Private Sub DataLoad_Timer()
     DataList.AddItem "尚未抽取过一次，无法显示相关数据"
     DataList.AddItem ""
   End If
+  DataList_Part.AddItem Meta.Class + "班级数据统计"
+  DataList_Part.AddItem ""
+  DataList_Part.AddItem "男生数量: " + CStr(Meta.MaleAmount)
+  DataList_Part.AddItem "女生数量: " + CStr(Meta.FemaleAmount)
+  DataList_Part.AddItem ""
+  DataList_Part.AddItem "班级总人数: " + CStr(Meta.MateAmount)
   DataDisplay.Enabled = True
   DataLoad.Enabled = False
 End Sub

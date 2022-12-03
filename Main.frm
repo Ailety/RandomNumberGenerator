@@ -882,11 +882,6 @@ Private Sub AmountBox_Change()
   Call ValueGet
   Call ApplyMin
   Call ApplyMax
-  If Not (IsNumeric(AmountBox.Text)) And AmountBox.Text <> "" Then
-    MsgBox "生成次数只允许键入数字！", vbOKOnly + vbCritical, "参数错误"
-    AmountBox.Text = "1"
-    Exit Sub
-  End If
   If Amount > 1 Then
     AmountDown.Enabled = True
   End If
@@ -915,6 +910,12 @@ Private Sub AmountBox_Change()
         AmountBox.Text = Max - Min + 1
       End If
     End If
+  End If
+End Sub
+
+Private Sub AmountBox_KeyPress(KeyAscii As Integer)
+  If (KeyAscii < 48 Or KeyAscii > 57) And KeyAscii <> 8 Then
+    KeyAscii = 0
   End If
 End Sub
 
@@ -971,7 +972,7 @@ End Sub
 Private Sub Form_Load()
   Randomize
   Main.Icon = Welcome.Icon
-  Meta.Version = "3.2.9"
+  Meta.Version = "3.3.0"
   Unload Welcome
   Meta.WindowState = "Max"
   MinimumProtectCount = 0
@@ -1124,6 +1125,12 @@ Private Sub MaxBox_Change()
   Call ApplyMax
 End Sub
 
+Private Sub MaxBox_KeyPress(KeyAscii As Integer)
+  If (KeyAscii < 48 Or KeyAscii > 57) And KeyAscii <> 8 Then
+    KeyAscii = 0
+  End If
+End Sub
+
 Private Sub Min_Button_Click()
   Meta.WindowLastState = Meta.WindowState
   Meta.WindowState = "Min"
@@ -1149,6 +1156,12 @@ Private Sub MinBox_Change()
     End If
   End If
   Call ApplyMin
+End Sub
+
+Private Sub MinBox_KeyPress(KeyAscii As Integer)
+  If (KeyAscii < 48 Or KeyAscii > 57) And KeyAscii <> 8 Then
+    KeyAscii = 0
+  End If
 End Sub
 
 Private Sub NameHook_Click()

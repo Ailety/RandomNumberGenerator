@@ -1,12 +1,10 @@
 [Application_Data]
 ;修改班级参数需要密钥，因此请勿随意更改班级参数，班级参数已经过加密，无法手动修改。
-DefaultClass= 36.1607142857143    69.4285714285714    108.482142857143    150.428571428571         
+DefaultClass= 36.1607142857143    69.4285714285714    108.482142857143    150.428571428571                                  
 KeyConfirm=
 Announcement=Always
 [2008]
 MateAmount=56
-MateMale=43
-MateFemale=13
 MateName(1)="蔡勤"
 MateGender(1)="女"
 MateName(2)="陈城"
@@ -121,8 +119,6 @@ MateName(56)="刘毅"
 MateGender(56)="男"
 [2009]
 MateAmount=55
-MateMale=43
-MateFemale=12
 MateName(1)="敖汶博"
 MateGender(1)="男"
 MateName(2)="包一涵"
@@ -235,8 +231,6 @@ MateName(55)="卓逸豪"
 MateGender(55)="男"
 [2024]
 MateAmount=46
-MateMale=22
-MateFemale=24
 MateName(1)="王一如"
 MateGender(1)="女"
 MateName(2)="谭斐"

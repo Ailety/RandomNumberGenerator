@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form SelectClass 
    BackColor       =   &H8000000E&
-   Caption         =   "程序初始化: 请选择你的班级"
+   Caption         =   "程序初始化 - 请选择班级"
    ClientHeight    =   2250
    ClientLeft      =   120
    ClientTop       =   465
@@ -84,17 +84,32 @@ Private Sub Confirm_Click()
         Meta.Class = SelectClassCombo.Text
         ReadString = GetPrivateProfileString(CStr(Meta.Class), "MateAmount", "NULL", ReadValue, 256, App.Path & "\config.ini")
         Meta.MateAmount = Val(ReadValue)
-        ReadString = GetPrivateProfileString(CStr(Meta.Class), "MateMale", "NULL", ReadValue, 256, App.Path & "\config.ini")
-        Meta.MaleAmount = Val(ReadValue)
-        ReadString = GetPrivateProfileString(CStr(Meta.Class), "MateFemale", "NULL", ReadValue, 256, App.Path & "\config.ini")
-        Meta.FemaleAmount = Val(ReadValue)
+        Meta.MaleAmount = 0
+        Meta.FemaleAmount = 0
+        'ReadString = GetPrivateProfileString(CStr(Meta.Class), "MateMale", "NULL", ReadValue, 256, App.Path & "\config.ini")
+        'Meta.MaleAmount = Val(ReadValue)
+        'ReadString = GetPrivateProfileString(CStr(Meta.Class), "MateFemale", "NULL", ReadValue, 256, App.Path & "\config.ini")
+        'Meta.FemaleAmount = Val(ReadValue)
         For i = 1 To Meta.MateAmount Step 1
           ReadString = GetPrivateProfileString(Meta.Class, "MateName(" + CStr(i) + ")", "NULL", ReadValue, 256, App.Path & "\config.ini")
           PTS.Text = ReadValue
-          Meta.Name(i) = PTS.Text
+          If PTS.Text = "NULL" Or PTS.Text = "" Then
+            Meta.Name(i) = "姓名异常"
+          Else
+            Meta.Name(i) = PTS.Text
+          End If
           ReadString = GetPrivateProfileString(Meta.Class, "MateGender(" + CStr(i) + ")", "NULL", ReadValue, 256, App.Path & "\config.ini")
           PTS.Text = ReadValue
-          Meta.Gender(i) = PTS.Text
+          If PTS.Text = "NULL" Or PTS.Text = "" Then
+            Meta.Gender(i) = "性别异常"
+          Else
+            Meta.Gender(i) = PTS.Text
+          End If
+          If Meta.Gender(i) = "男" Then
+            Meta.MaleAmount = Meta.MaleAmount + 1
+          ElseIf Meta.Gender(i) = "女" Then
+            Meta.FemaleAmount = Meta.FemaleAmount + 1
+          End If
         Next i
         Randomize
         Main.MaxBox.Text = CStr(Meta.MateAmount)
@@ -166,13 +181,19 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub Form_Load()
-  SelectClass.Icon = Main.Icon
-  Select Case Meta.Class
-  Case "2008"
-    SelectClass.SelectClassCombo.ListIndex = 0
-  Case "2009"
-    SelectClass.SelectClassCombo.ListIndex = 1
-  Case "2024"
-    SelectClass.SelectClassCombo.ListIndex = 2
-  End Select
+  If Meta.Class <> "" Then
+    SelectClass.Icon = Main.Icon
+    SelectClass.Caption = "程序参数设置 - 选择班级"
+    Select Case Meta.Class
+    Case "2008"
+      SelectClass.SelectClassCombo.ListIndex = 0
+    Case "2009"
+      SelectClass.SelectClassCombo.ListIndex = 1
+    Case "2024"
+      SelectClass.SelectClassCombo.ListIndex = 2
+    End Select
+  Else
+    SelectClass.Icon = Welcome.Icon
+    Unload Welcome
+  End If
 End Sub

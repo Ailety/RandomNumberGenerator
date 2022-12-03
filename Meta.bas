@@ -7,9 +7,10 @@ Public Protect As Boolean
 Public Version As String
 
 Public Class As String
-Public MateAmount As Single
-Public MaleAmount As Single
-Public FemaleAmount As Single
+Public MateAmount As Byte
+Public MaleAmount As Byte
+Public FemaleAmount As Byte
+Public UnknowGenderAmount As Byte
 
 Public Name(1 To 56) As String
 Public Gender(1 To 56) As String
