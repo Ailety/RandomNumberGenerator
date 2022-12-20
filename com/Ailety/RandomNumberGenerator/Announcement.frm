@@ -192,7 +192,7 @@ Private Sub Form_Load()
   AnnouncementMessage(68) = ""
   AnnouncementMessage(69) = "3.3.4 - 3.3.5 更新内容 20221221"
   AnnouncementMessage(70) = ""
-  AnnouncementMessage(71) = "1.修复了初始化班级中偶现“不能在模式化窗体中打开非模式化窗体”的问题"
+  AnnouncementMessage(71) = "1.修复了在初始化中的特殊情况下弹出“不能在模式化窗体中打开非模式化窗体”报错的问题 解决方案: 在公告显示与否代码执行完之前，禁用查看上次数据功能"
   AnnouncementMessage(72) = "2.修复了切换班级功能在显示当前班级时无法正常显示的错误"
   AnnouncementMessage(73) = "3.对程序初始化数据的部分代码进行了修改及调优"
 End Sub

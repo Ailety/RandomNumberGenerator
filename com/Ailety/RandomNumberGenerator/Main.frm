@@ -201,6 +201,7 @@ Begin VB.Form Main
    End
    Begin VB.CommandButton ViewLastData 
       Caption         =   "查看上次数据"
+      Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "微软雅黑"
          Size            =   12
@@ -973,6 +974,7 @@ Private Sub AnnouncementLoad_Timer()
   If Left(ReadValue, 6) = "Always" Then
     Announcement.Show
   End If
+  ViewLastData.Enabled = True
   AnnouncementLoad.Enabled = False
 End Sub
 
