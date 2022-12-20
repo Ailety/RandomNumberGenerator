@@ -48,6 +48,25 @@ Begin VB.Form ResultForm
       Top             =   360
       Width           =   4095
    End
+   Begin VB.Label TimeDisplay 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
+      Caption         =   "∫ƒ ±: NULL ∫¡√Î"
+      BeginProperty Font 
+         Name            =   "Œ¢»Ì—≈∫⁄"
+         Size            =   12
+         Charset         =   134
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   0
+      TabIndex        =   2
+      Top             =   4800
+      Width           =   4815
+   End
 End
 Attribute VB_Name = "ResultForm"
 Attribute VB_GlobalNameSpace = False
@@ -55,6 +74,12 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
+Private Declare Function timeGetTime Lib "winmm.dll" () As Long
+Dim NowTime
+
+Public Function GetUnixTime_ms() As String
+    GetUnixTime_ms = DateDiff("s", "1970-1-1 0:0:0", DateAdd("h", -8, Now)) & Right(timeGetTime, 3)
+End Function
 
 Private Sub Confirm_Click()
   Unload ResultForm
@@ -112,5 +137,22 @@ Private Sub Form_Load()
         Result.AddItem CStr(Meta.Result(i))
       Next i
     End If
+  End If
+  NowTime = GetUnixTime_ms()
+  Cache = (NowTime - Meta.GenerateTime) / 1000
+  If Left(Cache, 1) = "." Then
+    Dim Cache2
+    Cache2 = Mid(Cache, 2, Len(Cache) - 1)
+    If Left(Cache2, 1) = "0" Then
+      Cache2 = Val(Cache2)
+    End If
+    TimeDisplay.Caption = "∫ƒ ±: " & Cache2 & "∫¡√Î"
+  ElseIf Left(Cache, 1) = "-" Then
+    Cache2 = Val(Mid(Cache, 3, Len(Cache) - 2))
+    TimeDisplay.Caption = "∫ƒ ±: " & Cache2 & "∫¡√Î"
+  ElseIf Cache = "0" Then
+    TimeDisplay.Caption = "∫ƒ ±: 0∫¡√Î"
+  Else
+    TimeDisplay.Caption = "∫ƒ ±: " & Cache & "√Î"
   End If
 End Sub

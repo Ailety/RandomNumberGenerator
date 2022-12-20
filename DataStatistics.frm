@@ -147,7 +147,8 @@ Private Sub DataLoad_Timer()
     DataList.AddItem ""
   Else
     DataList.AddItem ""
-    DataList.AddItem "尚未抽取过一次，无法显示相关数据"
+    DataList.AddItem "尚未在启用姓名挂钩的同时抽取过，"
+    DataList.AddItem "无法显示相关排名及数据。"
     DataList.AddItem ""
   End If
   DataList_Part.AddItem Meta.Class + "班级数据统计"

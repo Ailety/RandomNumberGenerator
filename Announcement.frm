@@ -14,9 +14,9 @@ Begin VB.Form Announcement
    ScaleWidth      =   4455
    StartUpPosition =   2  '屏幕中心
    Begin VB.Timer AnnouncementLoad 
-      Interval        =   25
-      Left            =   4080
-      Top             =   6960
+      Interval        =   10
+      Left            =   3960
+      Top             =   8040
    End
    Begin VB.CheckBox NoLongerRemind 
       BackColor       =   &H8000000E&
@@ -104,10 +104,10 @@ End Sub
 
 Private Sub Form_Load()
   Announcement.Icon = Main.Icon
-  Announcement.Caption = "更新公告: " + Meta.Version + " 20221203"
+  Announcement.Caption = "更新公告: " + Meta.Version + " 20221220"
   SetWindowPos Me.hwnd, -1, 0, 0, 0, 0, 3
   AnnouncementMessageLoadAmount = 1
-  AnnouncementMessageAmount = 46
+  AnnouncementMessageAmount = 65
   AnnouncementMessage(1) = "1.1.2 - 2.7.2 更新内容"
   AnnouncementMessage(2) = ""
   AnnouncementMessage(3) = "1.重写随机数生成逻辑"
@@ -151,9 +151,28 @@ Private Sub Form_Load()
   AnnouncementMessage(41) = ""
   AnnouncementMessage(42) = "1.对导入班级数据的部分代码和配置文件进行了调整，以免出现因性别参数错误导致的性别筛选功能异常的问题"
   AnnouncementMessage(43) = "2.在数据统计界面增加了部分功能"
-  AnnouncementMessage(44) = "3.修复了因部分随机结算代码逻辑导致的最大值被抽取概率偏高的问题"
-  AnnouncementMessage(45) = "4.优化了生成次数、最大值、最小值文本框的参数判断，现在直接禁用了除数字以外的文本输入"
-  AnnouncementMessage(46) = "5.修复了因先前版本改动初始化界面导致的无班级数据或切换班级时出现的异常错误（例如主界面载入失败、切换班级后同学数据异常等）"
+  AnnouncementMessage(44) = "3.优化了生成次数、最大值、最小值文本框的参数判断，现在直接禁用了除数字以外的文本输入"
+  AnnouncementMessage(45) = "4.修复了因先前版本改动初始化界面导致的无班级数据或切换班级时出现的异常错误（例如主界面载入失败、切换班级后同学数据异常等）"
+  AnnouncementMessage(46) = ""
+  AnnouncementMessage(47) = "3.3.0 - 3.3.1 更新内容 20221207"
+  AnnouncementMessage(48) = ""
+  AnnouncementMessage(49) = "1.对2009、2024班级的错误班级序号进行了修正"
+  AnnouncementMessage(50) = ""
+  AnnouncementMessage(51) = "3.3.1 - 3.3.2 更新内容 20221210"
+  AnnouncementMessage(52) = ""
+  AnnouncementMessage(53) = "1.修复了因部分随机结算代码逻辑导致的最大值被抽取概率偏高的问题"
+  AnnouncementMessage(54) = "2.修复了因数据统计代码的部分逻辑错误导致的在关闭生成多次后会出现统计学生数据导致的下标溢出问题"
+  AnnouncementMessage(55) = ""
+  AnnouncementMessage(56) = "3.3.2 - 3.3.3 更新内容 20221217"
+  AnnouncementMessage(57) = ""
+  AnnouncementMessage(58) = "1.对随机数生成代码进行了部分逻辑改动和优化，略微提升了执行效率"
+  AnnouncementMessage(59) = "2.对部分读取配置代码进行了调整以适应即将推出的[随机数生成器配置定义程序]所生成的配置文件"
+  AnnouncementMessage(60) = ""
+  AnnouncementMessage(61) = "3.3.3 - 3.3.4 更新内容 20221220"
+  AnnouncementMessage(62) = ""
+  AnnouncementMessage(63) = "1.对随机数生成代码进行了部分逻辑改动和优化，再次略微提升了执行效率"
+  AnnouncementMessage(64) = "2.对生成功能的代码追加了性能监控器(Part1)，现在会在生成结果界面显示生成所需时间"
+  AnnouncementMessage(65) = "3.对生成次数框的次数限制功能进行了调整，使其更符合逻辑"
 End Sub
 
 Private Sub NoLongerRemind_Click()

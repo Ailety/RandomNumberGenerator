@@ -614,8 +614,8 @@ Dim Min As Single
 Dim Max As Single
 Dim lngAns As Long
 Dim RNMax As Single
-Dim RNCache(1 To 25000) As Single
-Dim RNCacheCount(1 To 1000000) As Single
+Dim RNCache(1 To 10000) As Single
+Dim RNCacheCount(1 To 10000000) As Single
 Dim MateAmount As Integer
 Dim OnlyGirlValue As Boolean
 Dim OnlyBoyValue As Boolean
@@ -625,8 +625,15 @@ Dim OverwriteDataValue As Boolean
 Dim AllowDuplicateDataValue As Boolean
 Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Private Declare Function GetPrivateProfileString Lib "kernel32" Alias "GetPrivateProfileStringA" (ByVal lpApplicationName As String, ByVal lpKeyName As Any, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Long, ByVal lpFileName As String) As Long
-Dim MinimumProtect(1 To 10) As Integer
+Dim MinimumProtect(1 To 20) As Integer
 Dim MinimumProtectCount As Integer
+
+Private Declare Function timeGetTime Lib "winmm.dll" () As Long
+
+Public Function GetUnixTime_ms() As String
+    GetUnixTime_ms = DateDiff("s", "1970-1-1 0:0:0", DateAdd("h", -8, Now)) & Right(timeGetTime, 3)
+End Function
+
 
 Sub ApplyMin()
   Call ValueGet
@@ -773,17 +780,17 @@ Sub RandomEvent()
   Call RealRandom
   If NameHookValue Then
     If MinimumProtectSwitch.Value Then
-      For i = 1 To 10 Step 1
+      For i = 1 To 20 Step 1
         If RNMax = MinimumProtect(i) Then
           Meta.Protect = True
           Call RandomEvent
           Exit Sub
         End If
       Next i
-      For i = 1 To 9 Step 1
+      For i = 1 To 19 Step 1
         MinimumProtect(i) = MinimumProtect(i + 1)
       Next i
-      MinimumProtect(10) = RNMax
+      MinimumProtect(20) = RNMax
     End If
   End If
 End Sub
@@ -797,7 +804,8 @@ Sub RealRandom()
     RNMax = Int(Rnd() * (Max - Min + 1)) + Min
     Exit Sub
   End If
-  For a = 1 To 25000 Step 1
+  For a = 1 To 10000 Step 1
+    Randomize
     RNCache(a) = Int(Rnd() * (Max - Min + 1)) + Min
     RNCacheCount(RNCache(a)) = RNCacheCount(RNCache(a)) + 1
   Next a
@@ -814,8 +822,13 @@ Sub RealRandom()
     End If
   Next c
   If Amount <> Max - Min + 1 And Max - Min <> 0 Then
+    Randomize
     If Rnd() * 100 + 1 <= 50 Then
-      RNMax = RNMin
+      Randomize
+      RNMax = Int(Rnd() * (Max - Min + 1)) + Min
+    Else
+      Randomize
+      RNMax = Int(Rnd() * (Max - Min + 1)) + Min
     End If
   End If
   For d = 1 To Meta.MateAmount Step 1
@@ -872,9 +885,13 @@ Private Sub AllowMultiple_Click()
 End Sub
 
 Private Sub AmountBox_Change()
-  If Len(AmountBox.Text) > 5 Then
+  If Val(AmountBox.Text) >= 100000 Then
     MsgBox "生成次数不应该使用过于庞大的数值！", vbOKOnly + vbCritical, "参数错误"
-    AmountBox.Text = Left(AmountBox.Text, Len(AmountBox.Text) - 1)
+    If AmountBox.Text = "100000" Then
+      AmountBox.Text = "99999"
+    Else
+      AmountBox.Text = Left(AmountBox.Text, Len(AmountBox.Text) - 1)
+    End If
   End If
   Min = Val(MinBox.Text)
   Max = Val(MaxBox.Text)
@@ -972,7 +989,7 @@ End Sub
 Private Sub Form_Load()
   Randomize
   Main.Icon = Welcome.Icon
-  Meta.Version = "3.3.0"
+  Meta.Version = "3.3.4"
   Unload Welcome
   Meta.WindowState = "Max"
   MinimumProtectCount = 0
@@ -980,7 +997,8 @@ Private Sub Form_Load()
   Main.Caption = "随机数生成器 - RNG - SNAPSHOT " + Meta.Version
   Subtitle.Caption = "SNAPSHOT " + Meta.Version
   ClassDisplay.Caption = "当前已载入 " + Meta.Class + "班 学生数据"
-  For i = 1 To 10 Step 1
+  For i = 1 To 20 Step 1
+    Randomize
     MinimumProtect(i) = Int(Rnd() * (Max - Min + 1)) + Min
   Next i
 End Sub
@@ -1008,6 +1026,7 @@ Private Sub Generate_Click()
       AmountBox.SetFocus
     End If
   Else
+    Meta.GenerateTime = GetUnixTime_ms()
     Min = Val(MinBox.Text)
     Max = Val(MaxBox.Text)
     Meta.Data_GenerateCount = Meta.Data_GenerateCount + Val(AmountBox.Text)
@@ -1019,7 +1038,9 @@ Private Sub Generate_Click()
         Call RealRandom
       End If
       Meta.Result(1) = RNMax
-      Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+      If NameHookValue Then
+        Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+      End If
       If NameHook Then
         If OnlyBoyValue Then
           If Meta.Gender(Meta.Result(1)) = "女" Then
@@ -1028,7 +1049,9 @@ Private Sub Generate_Click()
               Meta.Result(1) = RNMax
             Loop
           End If
-          Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+          If NameHookValue Then
+            Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+          End If
           Call DisplayResult
         ElseIf OnlyGirlValue Then
           If Meta.Gender(Meta.Result(1)) = "男" Then
@@ -1037,7 +1060,9 @@ Private Sub Generate_Click()
               Meta.Result(1) = RNMax
             Loop
           End If
-          Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+          If NameHookValue Then
+            Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+          End If
           Call DisplayResult
         ElseIf AllGenderValue Then
           Call DisplayResult
@@ -1050,7 +1075,9 @@ Private Sub Generate_Click()
       For i = 1 To Meta.Amount Step 1
         Call RealRandom
         Meta.Result(i) = RNMax
-        Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+        If NameHookValue Then
+          Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+        End If
         If OnlyBoyValue Then
           If Meta.Gender(Meta.Result(i)) = "女" Then
             i = i - 1

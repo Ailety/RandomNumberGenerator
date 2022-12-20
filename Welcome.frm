@@ -394,6 +394,9 @@ Private Sub Confirm_Click()
       Exit Sub
     End If
     DefaultClass = JieMi(ReadValue)
+    '判断班级数量？
+    'XXXXX
+    '判断班级名称符合？
     If Mid(DefaultClass, 1, 4) = "2008" Or Mid(DefaultClass, 1, 4) = "2009" Or Mid(DefaultClass, 1, 4) = "2024" Then
       Meta.Class = CStr(Val(DefaultClass))
       ReadString = GetPrivateProfileString(DefaultClass, "MateAmount", "NULL", ReadValue, 256, App.Path & "\config.ini")
@@ -448,7 +451,7 @@ Private Sub Form_Load()
     End
     Exit Sub
   End If
-  WelcomeText.Text = "" + vbCrLf + "                                                             欢迎使用随机数生成器(RNG)" + vbCrLf + " " + vbCrLf + "　 这个软件因老师上课的需求而诞生，如今已迭代至 SNAPSHOT 3.3.0 (第三快照版本第三次更新)，功能也相对趋于完善。初次开发花费1节课，后续的更新和维护共计39.2小时(实际开发时长)。" + vbCrLf + "　 当前版本解决了很多初代版本所存在的痛点，同时也修复了99%的BUG。但是受限于精力和技术，可能存在着极为隐性的漏洞，欢迎反馈。当然，如果你有好的建议，也可以与我联系，让软件更加完善。"
+  WelcomeText.Text = "" + vbCrLf + "                                                             欢迎使用随机数生成器(RNG)" + vbCrLf + " " + vbCrLf + "　 这个软件因老师上课的需求而诞生，如今已迭代至 SNAPSHOT 3.3.4 (第三快照版本第三次更新+四次修正)，功能也相对趋于完善。初次开发花费1节课，后续的更新和维护共计41.3小时(实际开发时长)。" + vbCrLf + "　 当前版本解决了很多初代版本所存在的痛点，同时也修复了99%的BUG。但是受限于精力和技术，可能存在着极为隐性的漏洞，欢迎反馈。当然，如果你有好的建议，也可以与我联系，让软件更加完善。"
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

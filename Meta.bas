@@ -21,3 +21,5 @@ Public WindowLastState As String
 Public Amount As Single
 Public LastAmount As Single
 Public Result(1 To 1000000) As Single
+
+Public GenerateTime
