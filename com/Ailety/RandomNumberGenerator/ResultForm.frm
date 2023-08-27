@@ -74,7 +74,7 @@ Attribute VB_Exposed = False
 Private Declare Function SetWindowPos Lib "user32" (ByVal hwnd As Long, ByVal hWndInsertAfter As Long, ByVal x As Long, ByVal y As Long, ByVal cx As Long, ByVal cy As Long, ByVal wFlags As Long) As Long
 Private Declare Function timeGetTime Lib "winmm.dll" () As Long
 Dim NowTime
-Dim Cache
+Dim Cache As String
 
 Public Function GetUnixTime_ms() As String
     GetUnixTime_ms = DateDiff("s", "1970-1-1 0:0:0", DateAdd("h", -8, Now)) & Right(timeGetTime, 3)
@@ -142,7 +142,14 @@ Private Sub Form_Load()
     Meta.ViewLastData = False
   Else
     NowTime = GetUnixTime_ms()
-    Cache = (NowTime - Meta.GenerateTime) / 1000
+    Cache = CStr((NowTime - Meta.GenerateTime) / 1000)
+    If Val(Cache) < 0 Then
+      Cache = Str(-Val(Cache))
+    ElseIf Cache > 0 And Cache < 1 Then
+      If Left(Cache, 1) <> "0" Then
+        Cache = "0" & Cache
+      End If
+    End If
     TimeDisplay.Caption = "ºÄÊ±: " & Cache & "Ãë"
   End If
 End Sub

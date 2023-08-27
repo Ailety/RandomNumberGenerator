@@ -1,4 +1,6 @@
 Attribute VB_Name = "Meta"
+Public RNG_OperationID As String
+
 Public Data_GenerateCount As Single
 Public Data_MateCount(1 To 56) As Single
 

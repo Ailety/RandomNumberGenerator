@@ -118,7 +118,11 @@ Private Sub Confirm_Click()
         PTS.Text = "Load"
         SelectClass.Hide
         Main.Show
+        Main.ClassDisplay.Caption = "当前已载入 " + Meta.Class + "班 学生数据"
+        Main.MaxBox.Text = CStr(Meta.MateAmount)
+        MsgBox "数据载入已完成！", vbOKOnly, "载入完成"
         Main.SetFocus
+        Unload SelectClass
       Else
         MsgBox "更新数据所需的密钥错误！" + vbCrLf + "请联系开发者以获取更新班级数据密钥！", vbOKOnly + vbCritical, "更新密钥错误"
       End If
@@ -177,19 +181,16 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub Form_Load()
-  SelectClassCombo.AddItem "2008"
-  SelectClassCombo.AddItem "2009"
-  SelectClassCombo.AddItem "2024"
+  SelectClassCombo.AddItem "2109"
+  SelectClassCombo.AddItem "2111"
   If Meta.Class <> "" Then
     SelectClass.Icon = Main.Icon
     SelectClass.Caption = "程序参数设置 - 选择班级"
     Select Case Meta.Class
-    Case "2008"
+    Case "2109"
       SelectClassCombo.ListIndex = 0
-    Case "2009"
+    Case "2111"
       SelectClassCombo.ListIndex = 1
-    Case "2024"
-      SelectClassCombo.ListIndex = 2
     End Select
   Else
     SelectClass.Icon = Welcome.Icon

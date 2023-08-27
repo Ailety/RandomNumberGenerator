@@ -96,6 +96,8 @@ Private Sub AnnouncementLoad_Timer()
       AnnouncementText.Text = AnnouncementText.Text + vbCrLf + AnnouncementMessage(AnnouncementMessageLoadAmount)
       AnnouncementMessageLoadAmount = AnnouncementMessageLoadAmount + 1
     End If
+  Else
+    AnnouncementLoad.Enabled = False
   End If
 End Sub
 
@@ -118,10 +120,10 @@ Private Sub Form_Load()
   End If
 
   Announcement.Icon = Main.Icon
-  Announcement.Caption = "更新公告: " + Meta.Version + " 20221221"
+  Announcement.Caption = "更新公告: " + Meta.Version + " 20230827"
   SetWindowPos Me.hwnd, -1, 0, 0, 0, 0, 3
   AnnouncementMessageLoadAmount = 1
-  AnnouncementMessageAmount = 73
+  AnnouncementMessageAmount = 91
   AnnouncementMessage(1) = "1.1.2 - 2.7.2 更新内容"
   AnnouncementMessage(2) = ""
   AnnouncementMessage(3) = "1.重写随机数生成逻辑"
@@ -195,6 +197,24 @@ Private Sub Form_Load()
   AnnouncementMessage(71) = "1.修复了在初始化中的特殊情况下弹出“不能在模式化窗体中打开非模式化窗体”报错的问题 解决方案: 在公告显示与否代码执行完之前，禁用查看上次数据功能"
   AnnouncementMessage(72) = "2.修复了切换班级功能在显示当前班级时无法正常显示的错误"
   AnnouncementMessage(73) = "3.对程序初始化数据的部分代码进行了修改及调优"
+  AnnouncementMessage(74) = ""
+  AnnouncementMessage(75) = "3.3.5 - 3.3.6 更新内容 20230207"
+  AnnouncementMessage(76) = ""
+  AnnouncementMessage(77) = "1.修复了性能监视器在3.3.5版本调整代码时所遗留的错误，现在耗时能够正确地显示数值，且不再会出现负数"
+  AnnouncementMessage(78) = "2.对随机数生成机制进行了调优 : )"
+  AnnouncementMessage(79) = ""
+  AnnouncementMessage(80) = "3.3.6 - 3.3.7 更新内容 20230510"
+  AnnouncementMessage(81) = ""
+  AnnouncementMessage(82) = "1.追加了程序日志功能，在程序启动后会将大多数操作都写入\Log\操作ID.log文件下"
+  AnnouncementMessage(83) = "2.修复了部分影响不大的错误"
+  AnnouncementMessage(84) = ""
+  AnnouncementMessage(85) = "3.3.7 - 3.3.8 更新内容 20230827"
+  AnnouncementMessage(86) = ""
+  AnnouncementMessage(87) = "1.移除了 [2008] [2009] [2024] 班级的数据"
+  AnnouncementMessage(88) = "2.导入了 [2109] [2111] 班级的数据"
+  AnnouncementMessage(89) = "3.优化了班级配置文件的数据结构，以方便修改和读取"
+  AnnouncementMessage(90) = "4.修复了切换班级时，部分数据无法正确同步的问题"
+  AnnouncementMessage(91) = "5.调整了更新公告的加载逻辑"
 End Sub
 
 Private Sub NoLongerRemind_Click()

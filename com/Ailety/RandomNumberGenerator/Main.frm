@@ -996,13 +996,21 @@ Private Sub DataStatisticsButton_Click()
 End Sub
 
 Private Sub Form_Load()
+  Meta.Version = "3.3.8"
+  
   Randomize
+  
+  Open App.Path & "\Log\" & Meta.RNG_OperationID & ".log" For Append As #1
+  Print #1, Now & " " & "载入数据，程序版本号 " & Meta.Version
+  Print #1, Now & " " & "载入主窗体"
+  Print #1, Now & " " & "本次载入" + Meta.Class + "班级数据"
+  Close #1
+  
   If SelectClass.PTS.Text = "Load" Then
     Main.Icon = SelectClass.Icon
   Else
     Main.Icon = Welcome.Icon
   End If
-  Meta.Version = "3.3.5"
   Unload Welcome
   Meta.WindowState = "Max"
   MinimumProtectCount = 0
@@ -1027,10 +1035,14 @@ Private Sub Form_Unload(Cancel As Integer)
   If Dir(App.Path & "\config.ini") <> "" Then
     Name App.Path & "\config.ini" As App.Path & "\Meta.vbd"
   End If
+  Open App.Path & "\Log\" & Meta.RNG_OperationID & ".log" For Append As #1
+  Print #1, Now & " " & "程序执行关闭操作"
+  Close #1
   End
 End Sub
 
 Private Sub Generate_Click()
+  Dim LogText As String
   Dim f As Form, f2 As Boolean
   f2 = False
   For Each f In Forms
@@ -1058,6 +1070,7 @@ Private Sub Generate_Click()
       AmountBox.SetFocus
     End If
   Else
+    Open App.Path & "\Log\" & Meta.RNG_OperationID & ".log" For Append As #1
     Meta.GenerateTime = GetUnixTime_ms()
     Min = Val(MinBox.Text)
     Max = Val(MaxBox.Text)
@@ -1074,6 +1087,7 @@ Private Sub Generate_Click()
         Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
       End If
       If NameHook Then
+        Print #1, Now & " 对同学进行了第 " & CStr(Meta.Data_GenerateCount) & " 次抽取操作 " & Meta.Name(Meta.Result(1))
         If OnlyBoyValue Then
           If Meta.Gender(Meta.Result(1)) = "女" Then
             Do While Meta.Gender(Meta.Result(1)) = "女"
@@ -1109,6 +1123,7 @@ Private Sub Generate_Click()
         Meta.Result(i) = RNMax
         If NameHookValue Then
           Meta.Data_MateCount(RNMax) = Meta.Data_MateCount(RNMax) + 1
+          Print #1, Now & " 对同学进行了第 " & CStr(Meta.Data_GenerateCount + (Meta.Data_GenerateCount - i)) & " 次抽取操作: " & Meta.Name(Meta.Result(i))
         End If
         If OnlyBoyValue Then
           If Meta.Gender(Meta.Result(i)) = "女" Then
@@ -1155,6 +1170,7 @@ Private Sub Generate_Click()
       Next i
       Call DisplayResult
     End If
+    Close #1
   End If
 End Sub
 
